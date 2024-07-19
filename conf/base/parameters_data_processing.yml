@@ -1,0 +1,8 @@
+model_options:
+  test_size: 0.2
+  random_state: 3
+  features:
+    - reanalysis_specific_humidity_g_per_kg
+    - reanalysis_dew_point_temp_k
+    - station_avg_temp_c
+    - station_min_temp_c
