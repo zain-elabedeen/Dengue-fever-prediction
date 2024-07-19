@@ -1,6 +1,7 @@
 from typing import Dict, Tuple
 
 import pandas as pd
+import numpy as np
 # from pyspark.sql import Column
 # from pyspark.sql import DataFrame as SparkDataFrame
 # from pyspark.sql.functions import regexp_replace
@@ -61,6 +62,7 @@ def prediction(model: pd.DataFrame,
                preprocerssed_data: pd.DataFrame,
                parameters: Dict) -> pd.DataFrame:
     prediction = model.predict(preprocerssed_data[parameters["features"]])
+    prediction = np.round(prediction).astype(int)
     predicton_data = pd.Series(prediction, name='predicted_total_cases')
 
     prediction_results = pd.concat([preprocerssed_data, predicton_data], axis=1)

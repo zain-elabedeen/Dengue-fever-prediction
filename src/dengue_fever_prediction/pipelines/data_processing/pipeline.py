@@ -5,7 +5,7 @@ from .nodes import (
     preprocess_data,
     train_model,
     prediction,
-    submittion,
+    submission,
 )
 
 def create_pipeline(**kwargs) -> Pipeline:
@@ -35,11 +35,11 @@ def create_pipeline(**kwargs) -> Pipeline:
                 outputs="prediction_data",
                 name="prediction_node"
             ),
-            # node(
-            #     func=submittion,
-            #     inputs=[],
-            #     outputs="",
-            #     name="submittion_node"
-            # ),
+            node(
+                func=submission,
+                inputs="prediction_data",
+                outputs="submission_data",
+                name="submission_node"
+            ),
         ]
     )
