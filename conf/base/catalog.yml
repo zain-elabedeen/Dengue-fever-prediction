@@ -176,60 +176,40 @@
 
 dengue_labels_train:
   filepath: data/01_raw/dengue_labels_train.csv
-  type: spark.SparkDataset
-  file_format: csv
+  type: pandas.CSVDataset
   load_args:
-    header: True
-    inferSchema: True
   save_args:
     sep: ','
-    header: True
-    mode: overwrite
+    mode: "w"
 
 dengue_features_test:
-  filepath: data/01_raw/dengue_labels_test.csv
-  type: spark.SparkDataset
-  file_format: csv
+  filepath: data/01_raw/dengue_features_test.csv
+  type: pandas.CSVDataset
   load_args:
-    header: True
-    inferSchema: True
   save_args:
     sep: ','
-    header: True
-    mode: overwrite
+    mode: "w"
 
-dengue_label_train:
-  filepath: data/01_raw/dengue_labels_train.csv
-  type: spark.SparkDataset
-  file_format: csv
+dengue_features_train:
+  filepath: data/01_raw/dengue_features_train.csv
+  type: pandas.CSVDataset
   load_args:
-    header: True
-    inferSchema: True
   save_args:
     sep: ','
-    header: True
-    mode: overwrite
+    mode: "w"
 
 merged_data:
   filepath: data/02_intermediate/merged_data.csv
-  type: spark.SparkDataset
-  file_format: csv
+  type: pandas.CSVDataset
   load_args:
-    header: True
-    inferSchema: True
   save_args:
     sep: ','
-    header: True
-    mode: overwrite
+    mode: "w"
 
 processed_data:
   filepath: data/02_intermediate/processed_data.csv
-  type: spark.SparkDataset
-  file_format: csv
+  type: pandas.CSVDataset
   load_args:
-    header: True
-    inferSchema: True
   save_args:
     sep: ','
-    header: True
-    mode: overwrite
+    mode: "w"
