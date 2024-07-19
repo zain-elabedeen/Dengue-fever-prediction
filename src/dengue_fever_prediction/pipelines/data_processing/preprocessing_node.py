@@ -70,7 +70,7 @@ def encode(df: pd.DataFrame) -> pd.DataFrame:
     New columns to df: "sj", "iq" = 0 or 1
     """
 
-    return pd.get_dummies(data=df, columns=['city'])
+    return pd.get_dummies(data=df, columns=['city', 'type'], dtype=int)
 
 
 def ps(df):
