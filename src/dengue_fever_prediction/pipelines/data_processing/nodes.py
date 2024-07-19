@@ -90,8 +90,11 @@ def submission(df: pd.DataFrame) -> pd.DataFrame:
     # Columns for submission format:
     desired_columns = ["city", "year", "weekofyear", "predicted_total_cases"] 
 
-    # Return output df: 
-    return df.loc[test_mask, desired_columns]
+    # output df
+    out = df.loc[test_mask, desired_columns]
+
+    # Return output df with correct total_cases name: 
+    return out.rename(columns={'predicted_total_cases': 'total_cases'})
 
 
 
