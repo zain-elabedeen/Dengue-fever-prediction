@@ -5,6 +5,7 @@ import pandas as pd
 # from pyspark.sql import DataFrame as SparkDataFrame
 # from pyspark.sql.functions import regexp_replace
 # from pyspark.sql.types import DoubleType
+from preprocessing_node import preprocessing
 
 
 def merge_data(dengue_features_test: pd.DataFrame, dengue_features_train: pd.DataFrame, dengue_labels_train: pd.DataFrame) -> pd.DataFrame: 
@@ -18,8 +19,8 @@ def merge_data(dengue_features_test: pd.DataFrame, dengue_features_train: pd.Dat
     #return {}
     return merged_data
 
-def preprocess_data():
-    return {}
+def preprocess_data(df: pd.DataFrame):
+    return preprocessing(df)
 
 def fit_model():
     return {}
