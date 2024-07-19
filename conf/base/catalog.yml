@@ -213,3 +213,11 @@ preprocessed_data:
   save_args:
     sep: ','
     mode: "w"
+
+prediction_data:
+  filepath: data/02_intermediate/prediction_data.csv
+  type: pandas.CSVDataset
+  load_args:
+  save_args:
+    sep: ','
+    mode: "w"
