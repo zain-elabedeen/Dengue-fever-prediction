@@ -72,7 +72,7 @@ def submission(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     # Columns for submission format:
-    desired_columns = ["city", "year", "weekofyear", "total_cases"] 
+    desired_columns = ["city", "year", "weekofyear", "predicted_total_cases"] 
 
     # Return output df: 
     return df.loc[test_mask, desired_columns]
