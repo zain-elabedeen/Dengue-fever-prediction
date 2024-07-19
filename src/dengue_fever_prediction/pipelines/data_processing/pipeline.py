@@ -1,46 +1,45 @@
 from kedro.pipeline import Pipeline, node, pipeline
 
 from .nodes import (
-    create_model_input_table,
-    load_shuttles_to_csv,
-    preprocess_companies,
-    preprocess_reviews,
-    preprocess_shuttles,
+    merge_data,
+    preprocess_data,
+    fit_model,
+    prediction,
+    submittion,
 )
-
 
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
         [
             node(
-                func=load_shuttles_to_csv,
-                inputs="shuttles_excel",
-                outputs="shuttles@csv",
-                name="load_shuttles_to_csv_node",
+                func=merge_data,
+                inputs="dengue_labels_train, dengue_features_test, dengue_label_train",
+                outputs=["merged_data"],
+                name="merge_data_node",
             ),
             node(
-                func=preprocess_companies,
-                inputs="companies",
-                outputs=["preprocessed_companies", "companies_columns"],
-                name="preprocess_companies_node",
+                func=preprocess_data,
+                inputs="merged_data",
+                outputs="preprocessed_data",
+                name="preprocess_data_node",
             ),
             node(
-                func=preprocess_shuttles,
-                inputs="shuttles@spark",
-                outputs="preprocessed_shuttles",
-                name="preprocess_shuttles_node",
+                func=fit_model,
+                inputs=["preprocessed_data"],
+                outputs="fitted_model_data",
+                name="fit_model_node"
             ),
             node(
-                func=preprocess_reviews,
-                inputs="reviews",
-                outputs="preprocessed_reviews",
-                name="preprocess_reviews_node",
+                func=prediction,
+                inputs=["fitted_model_data"],
+                outputs="prediction_results",
+                name="prediction_node"
             ),
             node(
-                func=create_model_input_table,
-                inputs=["preprocessed_shuttles", "preprocessed_companies", "preprocessed_reviews"],
-                outputs="model_input_table@spark",
-                name="create_model_input_table_node",
+                func=submittion,
+                inputs=[],
+                outputs="",
+                name="submittion_node"
             ),
         ]
     )
