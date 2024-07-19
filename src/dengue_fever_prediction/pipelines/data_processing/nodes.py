@@ -57,8 +57,14 @@ def train_model(preprocessed_data: pd.DataFrame, parameters: Dict) -> RandomFore
     regressor.fit(X, y)
     return regressor
 
-def prediction():
-    return {}
+def prediction(model: pd.DataFrame,
+               preprocerssed_data: pd.DataFrame,
+               parameters: Dict) -> pd.DataFrame:
+    prediction = model.predict(preprocerssed_data[parameters["features"]])
+    predicton_data = pd.Series(prediction, name='predicted_total_cases')
+
+    prediction_results = pd.concat([preprocerssed_data, predicton_data], axis=1)
+    return prediction_results
 
 def submittion():
     return {}

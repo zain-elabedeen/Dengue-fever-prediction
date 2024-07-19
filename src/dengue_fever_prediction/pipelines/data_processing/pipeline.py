@@ -26,15 +26,15 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 func=train_model,
                 inputs=["preprocessed_data", "params:model_options"],
-                outputs="trained_model",
+                outputs="model",
                 name="train_model_node"
             ),
-            # node(
-            #     func=prediction,
-            #     inputs=["fitted_model_data"],
-            #     outputs="prediction_results",
-            #     name="prediction_node"
-            # ),
+            node(
+                func=prediction,
+                inputs=["model", "preprocessed_data", "params:model_options"],
+                outputs="prediction_data",
+                name="prediction_node"
+            ),
             # node(
             #     func=submittion,
             #     inputs=[],
