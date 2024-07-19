@@ -50,8 +50,32 @@ def fit_model():
 def prediction():
     return {}
 
-def submittion():
-    return {}
+def submission(df: pd.DataFrame) -> pd.DataFrame:
+    """Prepare DataFrame in submission format.
+
+    Args:
+        df (pd.DataFrame): input dataframe containing predicted case numbers
+
+    Returns:
+        pd.DataFrame: output DF
+    """
+
+    # Select only the test rows:
+    test_mask = df.loc[:, "type_test"] == 1
+
+    # Reverse one-hot encoding of "city" column: 
+    df.loc[:, "city"] = df.loc[:, "city_sj"].replace(
+        {
+            1: "sj",
+            0: "iq"
+        }
+    )
+
+    # Columns for submission format:
+    desired_columns = ["city", "year", "weekofyear", "total_cases"] 
+
+    # Return output df: 
+    return df.loc[test_mask, desired_columns]
 
 
 

@@ -75,3 +75,30 @@ def encode(df: pd.DataFrame) -> pd.DataFrame:
 
 def ps(df):
     print("df.shape:", df.shape)
+
+
+def prepare_submission(df: pd.DataFrame) -> pd.DataFrame:
+    """Prepare DataFrame in submission format.
+
+    Args:
+        df (pd.DataFrame): input dataframe containing predicted case numbers
+
+    Returns:
+        pd.DataFrame: output DF
+    """
+
+    test_mask = df.loc[:, "type_test"] == 1
+
+    df.loc[:, "city"] = df.loc[:, "city_sj"].replace(
+        {
+            1: "sj",
+            0: "iq"
+        }
+    )
+
+    desired_columns = ["city", "year", "weekofyear", "total_cases"] # TODO: Columns/predictions!
+
+    print(df.loc[test_mask, desired_columns].head())
+
+
+    return df.loc[test_mask, desired_columns]
