@@ -23,23 +23,23 @@ def create_pipeline(**kwargs) -> Pipeline:
                 outputs="preprocessed_data",
                 name="preprocess_data_node",
             ),
-            node(
-                func=fit_model,
-                inputs=["preprocessed_data"],
-                outputs="fitted_model_data",
-                name="fit_model_node"
-            ),
-            node(
-                func=prediction,
-                inputs=["fitted_model_data"],
-                outputs="prediction_results",
-                name="prediction_node"
-            ),
-            node(
-                func=submittion,
-                inputs=[],
-                outputs="",
-                name="submittion_node"
-            ),
+            # node(
+            #     func=fit_model,
+            #     inputs=["preprocessed_data"],
+            #     outputs="fitted_model_data",
+            #     name="fit_model_node"
+            # ),
+            # node(
+            #     func=prediction,
+            #     inputs=["fitted_model_data"],
+            #     outputs="prediction_results",
+            #     name="prediction_node"
+            # ),
+            # node(
+            #     func=submittion,
+            #     inputs=[],
+            #     outputs="",
+            #     name="submittion_node"
+            # ),
         ]
     )

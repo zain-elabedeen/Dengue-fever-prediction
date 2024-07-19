@@ -206,8 +206,8 @@ merged_data:
     sep: ','
     mode: "w"
 
-processed_data:
-  filepath: data/02_intermediate/processed_data.csv
+preprocessed_data:
+  filepath: data/02_intermediate/preprocessed_data.csv
   type: pandas.CSVDataset
   load_args:
   save_args:
