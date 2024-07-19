@@ -12,15 +12,17 @@ from sklearn.model_selection import train_test_split
 
 
 def merge_data(dengue_features_test: pd.DataFrame, dengue_features_train: pd.DataFrame, dengue_labels_train: pd.DataFrame) -> pd.DataFrame:
-    dengue_features_test.insert(0, 'type', 'test')
-    dengue_features_train.insert(0, 'type', 'train')
-    column_to_merge = dengue_labels_train[['total_cases']]
-    train_dataset = pd.concat([dengue_features_train, column_to_merge], axis=1)
-    merged_data = pd.concat([train_dataset, dengue_features_test], axis=0)
-    #writing it out
-    #dataset.to_csv('dataset.csv', index=False)
-    #return {}
-    return merged_data
+    dengue_features_test.loc[:, "type"] = "test"
+    dengue_features_train.loc[:, "type"] = "train"
+
+    x_total = pd.concat([dengue_features_test, dengue_features_train], axis=0)
+
+    return pd.merge(
+        left=x_total,
+        right=dengue_labels_train,
+        on=["city", "year", "weekofyear"],
+        how="left",
+    )
 
 
 def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -48,13 +50,14 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def train_model(preprocessed_data: pd.DataFrame, parameters: Dict) -> RandomForestRegressor:
-    training_data = preprocessed_data[preprocessed_data['type_train'] == 1]
+    training_data = preprocessed_data[preprocessed_data['type'] == "train"]
 
     X = training_data[parameters["features"]]
     y = training_data["total_cases"]
 
 
     regressor = RandomForestRegressor()
+
     regressor.fit(X, y)
     return regressor
 
@@ -79,7 +82,7 @@ def submission(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     # Select only the test rows:
-    test_mask = df.loc[:, "type_test"] == 1
+    test_mask = df.loc[:, "type"] == "test"
 
     # Reverse one-hot encoding of "city" column: 
     df.loc[:, "city"] = df.loc[:, "city_sj"].replace(
@@ -88,6 +91,10 @@ def submission(df: pd.DataFrame) -> pd.DataFrame:
             0: "iq"
         }
     )
+
+    # Round the 'year' and 'weekofyear' columns to the nearest integer
+    df['year'] = df['year'].round().astype(int)
+    df['weekofyear'] = df['weekofyear'].round().astype(int)
 
     # Columns for submission format:
     desired_columns = ["city", "year", "weekofyear", "predicted_total_cases"] 
@@ -129,4 +136,4 @@ def encode(df: pd.DataFrame) -> pd.DataFrame:
     New columns to df: "sj", "iq" = 0 or 1
     """
 
-    return pd.get_dummies(data=df, columns=['city', 'type'], dtype=int)
+    return pd.get_dummies(data=df, columns=['city'], dtype=int)

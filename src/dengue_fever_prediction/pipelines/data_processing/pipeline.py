@@ -13,7 +13,11 @@ def create_pipeline(**kwargs) -> Pipeline:
         [
             node(
                 func=merge_data,
-                inputs=["dengue_features_train", "dengue_features_test", "dengue_labels_train"],
+                inputs={
+                    "dengue_features_test": "dengue_features_test",
+                    "dengue_features_train": "dengue_features_train",
+                    "dengue_labels_train": "dengue_labels_train",
+                },
                 outputs="merged_data",
                 name="merge_data_node",
             ),
