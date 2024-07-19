@@ -40,7 +40,7 @@ def preprocessing(df: pd.DataFrame) -> pd.DataFrame:
     # 3) One-hot encoding: 
     df = encode(df)
 
-    return df # TODO: How to return something saveable?
+    return df 
 
 
 def changeDate(df: pd.DataFrame) -> pd.DataFrame:
