@@ -3,7 +3,6 @@ model_options:
   random_state: 3
   features:
     - year
-    - weekofyear
     - ndvi_ne
     - ndvi_nw
     - ndvi_se
@@ -26,5 +25,27 @@ model_options:
     - station_precip_mm
     - city_iq
     - city_sj
+    - moving_average_station_precip_mm
+    - moving_average_station_min_temp_c
+    - moving_average_station_max_temp_c
+    - moving_average_station_diur_temp_rng_c
+    - moving_average_station_avg_temp_c
+    - moving_average_reanalysis_tdtr_k
+    - moving_average_reanalysis_specific_humidity_g_per_kg
+    - moving_average_reanalysis_sat_precip_amt_mm
+    - moving_average_reanalysis_relative_humidity_percent
+    - moving_average_ndvi_ne
+    - moving_average_ndvi_nw
+    - moving_average_ndvi_se
+    - moving_average_ndvi_sw
+    - moving_average_precipitation_amt_mm
+    - moving_average_reanalysis_air_temp_k
+    - moving_average_reanalysis_avg_temp_k
+    - moving_average_reanalysis_dew_point_temp_k
+    - moving_average_reanalysis_max_air_temp_k
+    - moving_average_reanalysis_min_air_temp_k
+    - moving_average_reanalysis_precip_amt_kg_per_m2
+    - woy_sin
+    - woy_cos
 
 
