@@ -47,7 +47,8 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     df = encode(df)
 
     return df
-
+def engineer_data(preprocessed_data: pd.DataFrame) -> pd.DataFrame:
+    return preprocessed_data
 
 def train_model(preprocessed_data: pd.DataFrame, parameters: Dict) -> RandomForestRegressor:
     training_data = preprocessed_data[preprocessed_data['type'] == "train"]

@@ -3,6 +3,7 @@ from kedro.pipeline import Pipeline, node, pipeline
 from .nodes import (
     merge_data,
     preprocess_data,
+    engineer_data,
     train_model,
     prediction,
     submission,
@@ -26,6 +27,12 @@ def create_pipeline(**kwargs) -> Pipeline:
                 inputs="merged_data",
                 outputs="preprocessed_data",
                 name="preprocess_data_node",
+            ),
+            node(
+                func=engineer_data,
+                inputs="preprocessed_data",
+                outputs="engineered_data",
+                name="engineer_data_node",
             ),
             node(
                 func=train_model,
