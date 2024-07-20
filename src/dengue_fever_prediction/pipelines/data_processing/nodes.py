@@ -200,6 +200,6 @@ def encode_weeks(df: pd.DataFrame) -> pd.DataFrame:
     df['woy_cos'] = week_cos(df['weekofyear'])
 
     # drop original weekofyear from df:
-    df.drop('weekofyear', axis=1, inplace=True)
+    # df.drop('weekofyear', axis=1, inplace=True)
 
     return df
