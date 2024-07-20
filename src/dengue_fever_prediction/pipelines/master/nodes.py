@@ -2,16 +2,15 @@ from typing import Dict, Tuple
 
 import pandas as pd
 import numpy as np
-# from pyspark.sql import Column
-# from pyspark.sql import DataFrame as SparkDataFrame
-# from pyspark.sql.functions import regexp_replace
-# from pyspark.sql.types import DoubleType
-# from preprocessing_node import preprocessing
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
 
 
-def merge_data(dengue_features_test: pd.DataFrame, dengue_features_train: pd.DataFrame, dengue_labels_train: pd.DataFrame) -> pd.DataFrame:
+def merge_data(
+        dengue_features_test: pd.DataFrame,
+        dengue_features_train: pd.DataFrame,
+        dengue_labels_train: pd.DataFrame
+) -> pd.DataFrame:
     dengue_features_test.loc[:, "type"] = "test"
     dengue_features_train.loc[:, "type"] = "train"
 
@@ -38,7 +37,7 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     # 1) Handling the Date:
-    df = changeDate(df) # TODO: best way to pass a dataframe?
+    df = change_date(df) # TODO: best way to pass a dataframe?
 
     # 2) Imputation:
     df = impute(df)
@@ -65,17 +64,53 @@ def engineer_data(preprocessed_data: pd.DataFrame) -> pd.DataFrame:
     
     return engineered_data
 
+
 def train_model(preprocessed_data: pd.DataFrame, parameters: Dict) -> RandomForestRegressor:
     training_data = preprocessed_data[preprocessed_data['type'] == "train"]
 
     X = training_data[parameters["features"]]
     y = training_data["total_cases"]
 
+    # Initialize the RandomForestRegressor
+    rf = RandomForestRegressor(random_state=42)
 
-    regressor = RandomForestRegressor()
+    if parameters["conduct_gridsearch"]:
 
-    regressor.fit(X, y)
-    return regressor
+        param_grid = {
+            'n_estimators': [100, 200, 300],
+            'max_depth': [None, 10, 20, 30],
+            'min_samples_split': [2, 5, 10],
+            'min_samples_leaf': [1, 2, 4],
+            'bootstrap': [True, False]
+        }
+
+        # Initialize GridSearchCV with 5-fold cross-validation
+        grid_search = GridSearchCV(
+            estimator=rf,
+            param_grid=param_grid,
+            cv=5,
+            n_jobs=-1,
+            verbose=2,
+            scoring='neg_mean_absolut_error'
+        )
+
+        # Fit the grid search to the data
+        grid_search.fit(X, y)
+
+        # Print the best parameters and the best score
+        print("Best parameters found: ", grid_search.best_params_)
+        print("Best cross-validation score (negative MSE): ", grid_search.best_score_)
+
+        # Train the best model on the entire training set
+        model = grid_search.best_estimator_
+        model.fit(X, y)
+
+
+    else:
+        model = rf.fit(X, y)
+
+    return model
+
 
 def prediction(model: pd.DataFrame,
                preprocerssed_data: pd.DataFrame,
@@ -86,6 +121,7 @@ def prediction(model: pd.DataFrame,
 
     prediction_results = pd.concat([preprocerssed_data, predicton_data], axis=1)
     return prediction_results
+
 
 def submission(df: pd.DataFrame) -> pd.DataFrame:
     """Prepare DataFrame in submission format.
@@ -123,6 +159,7 @@ def submission(df: pd.DataFrame) -> pd.DataFrame:
 
 # Helper functions:
 
+
 def calculate_moving_averages(df: pd.DataFrame, window=3) -> pd.DataFrame:
     columns_to_average = [
         'ndvi_ne', 'ndvi_nw', 'ndvi_se', 'ndvi_sw', 'precipitation_amt_mm',
@@ -147,7 +184,8 @@ def calculate_moving_averages(df: pd.DataFrame, window=3) -> pd.DataFrame:
     
     return moving_averages_df
 
-def changeDate(df: pd.DataFrame) -> pd.DataFrame:
+
+def change_date(df: pd.DataFrame) -> pd.DataFrame:
     """
     For now, just remove it. (TODO)
     """
@@ -176,12 +214,15 @@ def encode(df: pd.DataFrame) -> pd.DataFrame:
 
     return pd.get_dummies(data=df, columns=['city'], dtype=int)
 
+
 # From TimeSeries class, NB 6:
 def week_sin(t, k=1, m=52):
     return np.sin(2*t*np.pi*k/m)
 
+
 def week_cos(t, k=1, m=52):
     return np.cos(2*t*np.pi*k/m)
+
 
 def encode_weeks(df: pd.DataFrame) -> pd.DataFrame:
     """Cyclical encoding of  weekofyear 
