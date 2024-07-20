@@ -2,10 +2,8 @@ model_options:
   test_size: 0.2
   random_state: 3
   features:
-    - reanalysis_specific_humidity_g_per_kg
-    - reanalysis_dew_point_temp_k
-    - station_avg_temp_c
-    - station_min_temp_c
+    - year
+    - weekofyear
     - ndvi_ne
     - ndvi_nw
     - ndvi_se
@@ -20,3 +18,13 @@ model_options:
     - reanalysis_relative_humidity_percent
     - reanalysis_sat_precip_amt_mm
     - reanalysis_specific_humidity_g_per_kg
+    - reanalysis_tdtr_k
+    - station_avg_temp_c
+    - station_diur_temp_rng_c
+    - station_max_temp_c
+    - station_min_temp_c
+    - station_precip_mm
+    - city_iq
+    - city_sj
+
+
