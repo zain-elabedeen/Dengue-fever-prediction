@@ -47,8 +47,22 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     df = encode(df)
 
     return df
+
+
 def engineer_data(preprocessed_data: pd.DataFrame) -> pd.DataFrame:
-    return preprocessed_data
+    """Feature engineering: 
+        - Cyclical encoding of weekofyear column
+        - Moving averages for (...) columns
+    
+    Args:
+        preprocessed_data (pd.DataFrame): 
+
+    Returns:
+        pd.DataFrame: new df "engineered data:
+    """
+    engineered_data = encode_weeks(preprocessed_data)
+
+    return engineered_data
 
 def train_model(preprocessed_data: pd.DataFrame, parameters: Dict) -> RandomForestRegressor:
     training_data = preprocessed_data[preprocessed_data['type'] == "train"]
@@ -138,3 +152,31 @@ def encode(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     return pd.get_dummies(data=df, columns=['city'], dtype=int)
+
+# From TimeSeries class, NB 6:
+def week_sin(t, k=1, m=52):
+    return np.sin(2*t*np.pi*k/m)
+
+def week_cos(t, k=1, m=52):
+    return np.cos(2*t*np.pi*k/m)
+
+def encode_weeks(df: pd.DataFrame) -> pd.DataFrame:
+    """Cyclical encoding of  weekofyear 
+
+    Args:
+        df (pd.DataFrame): _description_
+
+    Returns:
+        pd.DataFrame: replace weekofyear column with two columns for sine and cosine
+    """
+
+    # add one column for the sine: 
+    df['woy_sin'] = week_sin(df['weekofyear'])
+
+    # and another for the cosine:
+    df['woy_cos'] = week_cos(df['weekofyear'])
+
+    # drop original weekofyear from df:
+    df.drop('weekofyear', axis=1, inplace=True)
+
+    return df
