@@ -61,7 +61,8 @@ def engineer_data(preprocessed_data: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: new df "engineered data:
     """
     engineered_data = encode_weeks(preprocessed_data)
-
+    engineered_data = calculate_moving_averages(engineered_data)
+    
     return engineered_data
 
 def train_model(preprocessed_data: pd.DataFrame, parameters: Dict) -> RandomForestRegressor:
@@ -120,9 +121,31 @@ def submission(df: pd.DataFrame) -> pd.DataFrame:
     # Return output df with correct total_cases name: 
     return out.rename(columns={'predicted_total_cases': 'total_cases'})
 
-
-
 # Helper functions:
+
+def calculate_moving_averages(df: pd.DataFrame, window=3) -> pd.DataFrame:
+    columns_to_average = [
+        'ndvi_ne', 'ndvi_nw', 'ndvi_se', 'ndvi_sw', 'precipitation_amt_mm',
+        'reanalysis_air_temp_k', 'reanalysis_avg_temp_k', 'reanalysis_dew_point_temp_k',
+        'reanalysis_max_air_temp_k', 'reanalysis_min_air_temp_k', 'reanalysis_precip_amt_kg_per_m2',
+        'reanalysis_relative_humidity_percent', 'reanalysis_sat_precip_amt_mm',
+        'reanalysis_specific_humidity_g_per_kg', 'reanalysis_tdtr_k', 'station_avg_temp_c',
+        'station_diur_temp_rng_c', 'station_max_temp_c', 'station_min_temp_c', 'station_precip_mm'
+    ]
+    
+    # Create a new DataFrame to store the moving averages
+    moving_averages_df = df.copy()
+    
+    # Calculate the moving averages for each column and add to the new DataFrame
+    for column in columns_to_average:
+        # Calculate moving averages
+        moving_averages_df[f'moving_average_{column}'] = df[column].rolling(window=window).mean()
+        
+        # Ensure the first two rows have the same values as the original columns
+        moving_averages_df[f'moving_average_{column}'].iloc[0] = df[column].iloc[0]
+        moving_averages_df[f'moving_average_{column}'].iloc[1] = df[column].iloc[1]
+    
+    return moving_averages_df
 
 def changeDate(df: pd.DataFrame) -> pd.DataFrame:
     """
