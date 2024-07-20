@@ -21,7 +21,7 @@ notebooks/total_cases_output_FalseImputation.png
 session_store.db
 src/dengue_fever_prediction/__pycache__/
 src/dengue_fever_prediction/pipelines/__pycache__/
-src/dengue_fever_prediction/pipelines/data_processing/__pycache__/
+src/dengue_fever_prediction/pipelines/master/__pycache__/
 src/dengue_fever_prediction/pipelines/data_science/
 src/dengue_fever_prediction/pipelines/reporting/
 stats.json
