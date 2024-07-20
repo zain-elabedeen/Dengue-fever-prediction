@@ -102,3 +102,11 @@ def prepare_submission(df: pd.DataFrame) -> pd.DataFrame:
 
 
     return df.loc[test_mask, desired_columns]
+
+
+# From TimeSeries class, NB 6:
+def week_sin(t, k=1, m=52):
+    return np.sin(2*t*np.pi*k/m)
+
+def week_cos(t, k=1, m=52):
+    return np.cos(2*t*np.pi*k/m)
