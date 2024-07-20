@@ -1,27 +1,32 @@
-        .telemetry
-        data/02_intermediate/merged_data.csv
-        data/02_intermediate/preprocessed_companies.csv/
-        data/02_intermediate/preprocessed_data.csv
-        data/02_intermediate/preprocessed_reviews.csv/
-        data/02_intermediate/preprocessed_shuttles.csv/
-        data/02_intermediate/shuttles.csv
-        data/03_primary/model_input_table.parquet/
-        data/06_models/regressor.pickle/
-        data/08_reporting/dummy_confusion_matrix.png/
-        data/08_reporting/shuttle_passenger_capacity_plot_exp.json/
-        data/08_reporting/shuttle_passenger_capacity_plot_go.json/
-        data/09_tracking/
-        info.log
-        kedro-pipeline.png
-        notebooks/__pycache__/
-        notebooks/dataset_type.csv
-        notebooks/dataset_what.csv
-        notebooks/testoutput.csv
-        notebooks/total_cases_output_FalseImputation.png
-        session_store.db
-        src/dengue_fever_prediction/__pycache__/
-        src/dengue_fever_prediction/pipelines/__pycache__/
-        src/dengue_fever_prediction/pipelines/data_processing/__pycache__/
-        src/dengue_fever_prediction/pipelines/data_science/
-        src/dengue_fever_prediction/pipelines/reporting/
-        stats.json
+.telemetry
+data/02_intermediate/merged_data.csv
+data/02_intermediate/preprocessed_companies.csv/
+data/02_intermediate/preprocessed_data.csv
+data/02_intermediate/preprocessed_reviews.csv/
+data/02_intermediate/preprocessed_shuttles.csv/
+data/02_intermediate/shuttles.csv
+data/03_primary/model_input_table.parquet/
+data/06_models/regressor.pickle/
+data/08_reporting/dummy_confusion_matrix.png/
+data/08_reporting/shuttle_passenger_capacity_plot_exp.json/
+data/08_reporting/shuttle_passenger_capacity_plot_go.json/
+data/09_tracking/
+info.log
+kedro-pipeline.png
+notebooks/__pycache__/
+notebooks/dataset_type.csv
+notebooks/dataset_what.csv
+notebooks/testoutput.csv
+notebooks/total_cases_output_FalseImputation.png
+session_store.db
+src/dengue_fever_prediction/__pycache__/
+src/dengue_fever_prediction/pipelines/__pycache__/
+src/dengue_fever_prediction/pipelines/data_processing/__pycache__/
+src/dengue_fever_prediction/pipelines/data_science/
+src/dengue_fever_prediction/pipelines/reporting/
+stats.json
+.idea/
+data/.DS_Store
+data/02_intermediate/engineered_data.csv
+data/02_intermediate/prediction_data.csv
+data/02_intermediate/submission_data.csv
